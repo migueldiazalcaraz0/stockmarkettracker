@@ -32,6 +32,9 @@ for entry in articles:
     print()
 
 
+new_article = news_data["articles"][:4]
+
+
 # STOCK = "TSLA"
 # COMPANY_NAME = "Tesla Inc"
 
