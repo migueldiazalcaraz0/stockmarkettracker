@@ -23,9 +23,14 @@ params = {
 response = requests.get("https://newsapi.org/v2/everything", params=params)
 news_data = response.json()
 
-print(news_data)
+# print(news_data)
 
+articles = news_data["articles"][:3]
 
+for entry in articles:
+    print(entry["title"])
+    print(entry["description"])
+    print()
 
 
 # STOCK = "TSLA"
