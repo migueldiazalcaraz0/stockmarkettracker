@@ -1,8 +1,38 @@
-STOCK = "TSLA"
-COMPANY_NAME = "Tesla Inc"
+import json
+import requests
+import os
+from newsapi import NewsApiClient
+from dotenv import load_dotenv
+load_dotenv()
 
-STOCK_ENDPOINT = "https://www.alphavantage.co/query"
-NEWS_ENDPOINT = "https://newsapi.org/v2/everything"
+
+### implemented news api
+news_api = os.environ.get("NEWS_API")
+
+
+params = {
+    "q" : "Apple",
+    "apiKey": news_api,
+    "sortBy": "popularity",
+    "from": "2026-08-19",
+
+}
+
+
+
+response = requests.get("https://newsapi.org/v2/everything", params=params)
+news_data = response.json()
+
+print(news_data)
+
+
+
+
+# STOCK = "TSLA"
+# COMPANY_NAME = "Tesla Inc"
+
+# STOCK_ENDPOINT = "https://www.alphavantage.co/query"
+# NEWS_ENDPOINT = "https://newsapi.org/v2/everything"
 
 
 ## STEP 1: Use https://newsapi.org/docs/endpoints/everything
