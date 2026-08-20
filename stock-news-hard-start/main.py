@@ -17,7 +17,7 @@ params = {
 
 }
 
-
+print("test")
 
 response = requests.get("https://newsapi.org/v2/everything", params=params)
 news_data = response.json()
