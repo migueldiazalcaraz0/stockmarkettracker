@@ -9,7 +9,6 @@ load_dotenv()
 ### implemented news api
 news_api = os.environ.get("NEWS_API")
 
-
 params = {
     "q" : "Apple",
     "apiKey": news_api,
