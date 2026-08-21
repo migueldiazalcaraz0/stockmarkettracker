@@ -17,7 +17,6 @@ params = {
 
 }
 
-print("final test")
 response = requests.get("https://newsapi.org/v2/everything", params=params)
 news_data = response.json()
 
@@ -29,9 +28,6 @@ for entry in articles:
     print(entry["title"])
     print(entry["description"])
     print()
-
-
-new_article = news_data["articles"][:4]
 
 
 # STOCK = "TSLA"
