@@ -8,6 +8,7 @@ load_dotenv()
 
 ### implemented news api
 news_api = os.environ.get("NEWS_API")
+stock_api = os.environ.get("STOCK_API")
 
 params = {
     "q" : "Apple",
@@ -24,11 +25,41 @@ news_data = response.json()
 
 articles = news_data["articles"][:3]
 
-for entry in articles:
-    print(entry["title"])
-    print(entry["description"])
-    print()
+# for entry in articles:
+#     print(entry["title"])
+#     print(entry["description"])
+#     print()
 
+### stock news 
+
+
+stock_params = {
+    "function" : "TIME_SERIES_DAILY",
+    "symbol" : "AAPL",
+    "apikey" : stock_api,
+    "outputsize" : "compact",
+
+}
+
+
+url = 'https://www.alphavantage.co/query'
+r = requests.get(url,params=stock_params)
+stock_data = r.json()
+
+# print(stock_data)
+
+time_series = stock_data["Time Series (Daily)"]
+latest_data = list(time_series.keys())[0]
+latest_close = time_series[latest_data]["4. close"]
+
+yesterday_time_series = stock_data["Time Series (Daily)"]
+yesterday_latest_data = list(yesterday_time_series.keys())[1]
+yesterday_close = yesterday_time_series[yesterday_latest_data]["4. close"]
+
+
+print(latest_close)
+
+print(yesterday_close)
 
 # STOCK = "TSLA"
 # COMPANY_NAME = "Tesla Inc"
