@@ -56,10 +56,12 @@ yesterday_time_series = stock_data["Time Series (Daily)"]
 yesterday_latest_data = list(yesterday_time_series.keys())[1]
 yesterday_close = yesterday_time_series[yesterday_latest_data]["4. close"]
 
-
+print(latest_data)
 print(latest_close)
-
+print(yesterday_latest_data)
 print(yesterday_close)
+total = float(latest_close) - float(yesterday_close)
+print(total)
 
 # STOCK = "TSLA"
 # COMPANY_NAME = "Tesla Inc"
