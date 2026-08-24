@@ -9,7 +9,7 @@ load_dotenv()
 ### implemented news api
 news_api = os.environ.get("NEWS_API")
 stock_api = os.environ.get("STOCK_API")
-
+## Wanted Paramters
 params = {
     "q" : "Apple",
     "apiKey": news_api,
@@ -18,11 +18,11 @@ params = {
 
 }
 
+## APi response stuff
 response = requests.get("https://newsapi.org/v2/everything", params=params)
 news_data = response.json()
 
-# print(news_data)
-
+## only grab 3 articels
 articles = news_data["articles"][:3]
 
 # for entry in articles:
@@ -30,8 +30,7 @@ articles = news_data["articles"][:3]
 #     print(entry["description"])
 #     print()
 
-### stock news 
-
+### stock price paramters 
 
 stock_params = {
     "function" : "TIME_SERIES_DAILY",
@@ -41,45 +40,46 @@ stock_params = {
 
 }
 
-
+## Stock price api config
 url = 'https://www.alphavantage.co/query'
 r = requests.get(url,params=stock_params)
 stock_data = r.json()
 
-# print(stock_data)
-
+## Selecting todays closing data or latest closing data avaliable (doesnt fetch weekends)
 time_series = stock_data["Time Series (Daily)"]
 latest_data = list(time_series.keys())[0]
 latest_close = time_series[latest_data]["4. close"]
 
+## yesterday closing data or last yesterday thats a market day
 yesterday_time_series = stock_data["Time Series (Daily)"]
 yesterday_latest_data = list(yesterday_time_series.keys())[1]
 yesterday_close = yesterday_time_series[yesterday_latest_data]["4. close"]
-
+### prints date followed by price
 print(latest_data)
 print(latest_close)
+
+
+### prints yesterdays date and closing price
 print(yesterday_latest_data)
 print(yesterday_close)
+
+## Total change calcuation 
 total = float(latest_close) - float(yesterday_close)
-print(total)
-
-# STOCK = "TSLA"
-# COMPANY_NAME = "Tesla Inc"
-
-# STOCK_ENDPOINT = "https://www.alphavantage.co/query"
-# NEWS_ENDPOINT = "https://newsapi.org/v2/everything"
 
 
-## STEP 1: Use https://newsapi.org/docs/endpoints/everything
-# When STOCK price increase/decreases by 5% between yesterday and the day before yesterday then print("Get News").
-#HINT 1: Get the closing price for yesterday and the day before yesterday. Find the positive difference between the two prices. e.g. 40 - 20 = -20, but the positive difference is 20.
-#HINT 2: Work out the value of 5% of yerstday's closing stock price. 
+print(f"Total net is {total}")
 
+## check 5 percents value of yesterdays stock closing price
+five_percent = float(yesterday_close) *0.05
+print(f"A change of five percent would be {five_percent}")
 
+## function that gets news if the five percent of yesterdays closing price is less or greater then the total profit of todays price mines yesterdays so if its less.
+def getnews():
+    if abs(total) >= five_percent:
+        print("get news")
 
-## STEP 2: Use https://newsapi.org/docs/endpoints/everything
-# Instead of printing ("Get News"), actually fetch the first 3 articles for the COMPANY_NAME. 
-#HINT 1: Think about using the Python Slice Operator
+    
+
 
 
 
@@ -91,12 +91,12 @@ print(total)
 
 #Optional: Format the SMS message like this: 
 """
-TSLA: 🔺2%
-Headline: Were Hedge Funds Right About Piling Into Tesla Inc. (TSLA)?. 
-Brief: We at Insider Monkey have gone over 821 13F filings that hedge funds and prominent investors are required to file by the SEC The 13F filings show the funds' and investors' portfolio positions as of March 31st, near the height of the coronavirus market crash.
-or
-"TSLA: 🔻5%
-Headline: Were Hedge Funds Right About Piling Into Tesla Inc. (TSLA)?. 
-Brief: We at Insider Monkey have gone over 821 13F filings that hedge funds and prominent investors are required to file by the SEC The 13F filings show the funds' and investors' portfolio positions as of March 31st, near the height of the coronavirus market crash.
-"""
+# TSLA: 🔺2%
+# Headline: Were Hedge Funds Right About Piling Into Tesla Inc. (TSLA)?. 
+# Brief: We at Insider Monkey have gone over 821 13F filings that hedge funds and prominent investors are required to file by the SEC The 13F filings show the funds' and investors' portfolio positions as of March 31st, near the height of the coronavirus market crash.
+# or
+# "TSLA: 🔻5%
+# Headline: Were Hedge Funds Right About Piling Into Tesla Inc. (TSLA)?. 
+# Brief: We at Insider Monkey have gone over 821 13F filings that hedge funds and prominent investors are required to file by the SEC The 13F filings show the funds' and investors' portfolio positions as of March 31st, near the height of the coronavirus market crash.
+# """
 
