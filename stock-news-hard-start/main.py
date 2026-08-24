@@ -55,32 +55,35 @@ yesterday_time_series = stock_data["Time Series (Daily)"]
 yesterday_latest_data = list(yesterday_time_series.keys())[1]
 yesterday_close = yesterday_time_series[yesterday_latest_data]["4. close"]
 ### prints date followed by price
-print(latest_data)
-print(latest_close)
+# print(latest_data)
+# print(latest_close)
 
 
 ### prints yesterdays date and closing price
-print(yesterday_latest_data)
-print(yesterday_close)
+# print(yesterday_latest_data)
+# print(yesterday_close)
 
 ## Total change calcuation 
 total = float(latest_close) - float(yesterday_close)
 
 
-print(f"Total net is {total}")
+# print(f"Total net is {total}")
 
 ## check 5 percents value of yesterdays stock closing price
 five_percent = float(yesterday_close) *0.05
-print(f"A change of five percent would be {five_percent}")
+# print(f"A change of five percent would be {five_percent}")
 
 ## function that gets news if the five percent of yesterdays closing price is less or greater then the total profit of todays price mines yesterdays so if its less.
 def getnews():
     if abs(total) >= five_percent:
         print("get news")
+    else:
+        print("no news to print today")
 
     
 
 
+getnews()
 
 
 ## STEP 3: Use twilio.com/docs/sms/quickstart/python
