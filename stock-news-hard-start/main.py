@@ -2,6 +2,7 @@ import json
 import requests
 import os
 from newsapi import NewsApiClient
+from twilio.rest import Client
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -9,6 +10,12 @@ load_dotenv()
 ### implemented news api
 news_api = os.environ.get("NEWS_API")
 stock_api = os.environ.get("STOCK_API")
+
+## Twilio config
+twilio_sid = os.environ.get("TWILIO_SID")
+twilio_auth_token = os.environ.get("TWILIO_AUTH_TOKEN")
+twilio_from_number = os.environ.get("TWILIO_FROM_NUMBER")
+twilio_to_number = os.environ.get("TWILIO_TO_NUMBER")
 ## Wanted Paramters
 params = {
     "q" : "Apple",
@@ -73,20 +80,30 @@ total = float(latest_close) - float(yesterday_close)
 five_percent = float(yesterday_close) *0.05
 # print(f"A change of five percent would be {five_percent}")
 
+## sends each article as a separate SMS through twilio
+def send_articles(articles):
+    client = Client(twilio_sid, twilio_auth_token)
+    for entry in articles:
+        body = f"{entry['title']}\n{entry['description']}"
+        client.messages.create(
+            body=body,
+            from_=twilio_from_number,
+            to=twilio_to_number,
+        )
+
 ## function that gets news if the five percent of yesterdays closing price is less or greater then the total profit of todays price mines yesterdays so if its less.
 def getnews():
     if abs(total) >= five_percent:
         print("get news")
+        send_articles(articles)
     else:
         print("no news to print today")
 
-    
+
 
 
 getnews()
 
 
-
-##Skipping twillio as only paid services allowed now not intrested in paying for api i wont use 
 
 print("completed")
